@@ -45,7 +45,7 @@
     transferMethodFromEl.innerHTML = listMethods;
 
     listMethods = "";
-    for (let i = 1; i < accounts.length; i++) {
+    for (let i = 0; i < accounts.length; i++) {
         listMethods += `
             <option value="${accounts[i].number}">${accounts[i].name}</option>
             `
