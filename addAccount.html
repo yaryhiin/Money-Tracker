@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="addAccount.css">
+    <link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Tracker</title>
+</head>
+
+<body>
+    <div id="inputs-box">
+        <div class="input-container">
+            <p class="input-text">Account name</p>
+            <input type="text" class="input" id="acc-name" required>
+        </div>
+        <div class="input-container">
+            <p class="input-text">Balance</p>
+            <input type="number" class="input" id="acc-bal" required>
+        </div>
+        <div class="input-container">
+            <p class="input-text">Currency</p>
+            <select id="acc-cur" required>
+                <option value="UAH">UAH</option>
+                <option value="PLN">PLN</option>
+                <option value="USD">USD</option>
+            </select>
+        </div>
+        <div class="input-container">
+            <p class="input-text">Icon</p>
+            <select id="acc-icon" required>
+                <option value="card_blue">Blue card</option>
+                <option value="card_pink">Pink card</option>
+                <option value="cash">Cash</option>
+                <option value="crypto">Crypto</option>
+                <option value="bank">Bank account</option>
+                <option value="euro">Euro</option>
+                <option value="usd">USD</option>
+            </select>
+        </div>
+    </div>
+    <div id="button-container">
+        <button id="back-btn" onclick="loadPage('index.html')">Back</button>
+        <button id="save-acc-btn" onclick="loadPage('index.html')">Save</button>
+    </div>
+</body>
+<script src="index.js"></script>
+
+</html>

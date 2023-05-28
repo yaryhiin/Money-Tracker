@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="transfer.css">
+    <link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Tracker</title>
+</head>
+
+<body>
+    <div id="transfer-box">
+        <div class="transfer-container">
+            <p class="transfer-text">Amount</p>
+            <input class="transfer" id="transfer-amount" type="text" required>
+        </div>
+        <div class="transfer-container">
+            <p class="transfer-text">From</p>
+            <select class="transfer-method" id="transfer-method-from" required>
+            </select>
+        </div>
+        <div class="transfer-container">
+            <p class="transfer-text">To</p>
+            <select class="transfer-method" id="transfer-method-to" required>
+            </select>
+        </div>
+        <div class="transfer-container">
+            <p class="transfer-text">Date</p>
+            <input type="date" id="transfer-date" required>
+        </div>
+    </div>
+    <div id="button-container">
+        <button id="back-btn" onclick="loadPage('index.html')">Back</button>
+        <button id="save-transfer-btn" onclick="loadPage('index.html')">Save</button>
+    </div>
+</body>
+<script src="index.js"></script>
+<script>
+    let listMethods = "";
+    for (let i = 0; i < accounts.length; i++) {
+        listMethods += `
+            <option value="${accounts[i].number}">${accounts[i].name}</option>
+            `
+    }
+    transferMethodFromEl.innerHTML = listMethods;
+
+    listMethods = "";
+    for (let i = 1; i < accounts.length; i++) {
+        listMethods += `
+            <option value="${accounts[i].number}">${accounts[i].name}</option>
+            `
+    }
+    transferMethodToEl.innerHTML = listMethods;
+
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    transferDateEl.value = formattedDate;
+</script>
+
+</html>

@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #292929;
+    color: #fff;
+}
+
+#trans-change-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.trans-change-container {
+    margin-bottom: 15px;
+}
+
+.trans-change-text {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #e7e7e7;
+}
+
+.trans-change {
+    width: 200px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#trans-change-category,
+#trans-change-method,
+#trans-change-date,
+#trans-change-type {
+    width: 200px;
+    height: 30px;
+    border-radius: 4px;
+    background-color: #e7e7e7;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+#button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    width: 120px;
+    height: 40px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#back-btn {
+    background-color: #252525;
+}
+
+#back-btn:hover {
+    background-color: #333;
+}
+
+#trans-change-btn {
+    background-color: rgb(0, 0, 185);
+}
+
+#trans-change-btn:hover {
+    background-color: rgb(0, 0, 240);
+}
+
+#delete-trans-btn {
+    background-color: rgb(185, 0, 0);
+}
+
+#delete-trans-btn:hover {
+    background-color: rgb(240, 0, 0);
+}

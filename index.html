@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Tracker</title>
+</head>
+
+<body>
+    <div id="body">
+        <div id="accounts">
+            <div class="account" onclick="loadPage('addAccount.html')">
+                <img style="position: relative; left: 38%;" src="images/buttons/add_btn.png">
+            </div>
+        </div>
+        <div id="transactions-box">
+            <div id="transactions">
+            </div>
+            <div id="view-box">
+                <div id="view-all">
+                    <p onclick="loadPage('transactions-list.html')">View all transactions</p>
+                </div>
+            </div>
+        </div>
+        <div id="buttons">
+            <div class="button" id="income-btn">
+                <div>
+                    <img src="images/buttons/income.png" id="income-btn">
+                </div>
+            </div>
+            <div class="button" id="expense-btn">
+                <div>
+                    <img src="images/buttons/expense.png" id="expense-btn">
+                </div>
+            </div>
+            <div class="button" id="transfer-btn">
+                <div>
+                    <img src="images/buttons/transfer.png" id="transfer-btn">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="button-container">
+        <button id="delete-all-btn" onclick="clearLocalStorage()">Delete All</button>
+    </div>
+</body>
+<script src="index.js"></script>
+<script>window.addEventListener("load", displayAccounts);
+    window.addEventListener("load", displayTransactions);
+</script>
+
+</html>
