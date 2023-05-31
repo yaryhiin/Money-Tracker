@@ -112,7 +112,6 @@ function addAccountLoaded() {
 
 function accountsLoaded() {
     changeAccBtn.addEventListener('click', function () {
-        let accNumber = JSON.parse(localStorage.getItem("accNumber"));
         const accName = changeNameEl.value;
         const accBal = parseInt(changeBalEl.value);
         const accCur = changeCurEl.value;
@@ -131,33 +130,48 @@ function accountsLoaded() {
         }
     })
     deleteAccBtn.addEventListener('click', function () {
-        let accNumber = JSON.parse(localStorage.getItem("accNumber"));
-        for (let i = accNumber; i < accounts.length; i++) {
-            accounts[i].number--;
-        }
-        if (accNumber > 2) {
-            for (let i = accNumber - 1; i > -1; i--) {
-                accounts[i].number--;
+        if (transactions.length > 0) {
+            let i = 0;
+            while (i < transactions.length) {
+                if (transactions[i].method == accNumber) {
+                    transactions.splice(i, 1);
+                } else {
+                    i++;
+                }
+                if (transactions.length == 0) {
+                    break;
+                }
             }
+            saveTransactions();
         }
-        for (let i = 0; i < transactions.length; i++) {
-            if (transactions[i].method == accounts[accNumber - 1].number) {
-                for (let n = transactions[i].number; n < transactions.length; n++) {
-                    transactions[n].number--;
-                    transactions[n].method--;
+        if (transactions.length > 0) {
+            for (let i = 0; i < transactions.length; i++) {
+                if (accounts[accNumber - 1].number < transactions[i].method) {
+                    transactions[i].method--;
                 }
-                if (transactions[i] > 2) {
-                    for (let n = transactions[i] - 1; n > -1; n--) {
-                        transactions[n].number--;
-                        transactions[n].method--;
-                    }
-                }
-                transactions.splice(transactions[i], 1);
-                saveTransactions();
             }
         }
         accounts.splice(accNumber - 1, 1);
+        if (accounts.length > 0) {
+            for (let i = 0; i < accounts.length; i++) {
+                accounts[i].number = i + 1;
+            }
+        }
+        if (transactions.length > 0) {
+            for (let i = 0; i < transactions.length; i++) {
+                transactions[i].number = i + 1;
+            }
+            transNumber = transactions[transactions.length - 1].number;
+            saveTransactions();
+            saveTransNumber();
+        }
+        if (accounts.length > 0) {
+            accNumber = accounts[accounts.length - 1].number;
+        } else {
+            accNumber = 1;
+        }
         saveAccounts();
+        saveAccNumber();
     })
 }
 
@@ -171,7 +185,7 @@ function incomeLoaded() {
         }
         const incomeAmount = parseInt(incomeAmountEl.value);
         const incomeCategory = incomeCategoryEl.value;
-        const incomeMethod = incomeMethodEl.value;
+        const incomeMethod = parseInt(incomeMethodEl.value);
         const transType = 'Income';
         const incomeDate = incomeDateEl.value;
         const income = {
@@ -195,7 +209,7 @@ function expenseLoaded() {
         transNumber++;
         const expenseAmount = parseInt(-expenseAmountEl.value);
         const expenseCategory = expenseCategoryEl.value;
-        const expenseMethod = expenseMethodEl.value;
+        const expenseMethod = parseInt(expenseMethodEl.value);
         const transType = 'Expense';
         const expenseDate = expenseDateEl.value;
         const expense = {
@@ -217,8 +231,8 @@ function expenseLoaded() {
 function transferLoaded() {
     saveTransferBtn.addEventListener('click', function () {
         const transferAmount = parseInt(transferAmountEl.value);
-        const transferMethodFrom = transferMethodFromEl.value;
-        const transferMethodTo = transferMethodToEl.value;
+        const transferMethodFrom = parseInt(transferMethodFromEl.value);
+        const transferMethodTo = parseInt(transferMethodToEl.value);
         accounts[transferMethodFrom - 1].balance -= transferAmount;
         accounts[transferMethodTo - 1].balance += transferAmount;
         saveAccounts();
@@ -227,8 +241,6 @@ function transferLoaded() {
 
 function transactionChangeLoaded() {
     changeTransBtn.addEventListener('click', function () {
-        let transNumber = JSON.parse(localStorage.getItem("transNumber"));
-        let accNumber = JSON.parse(localStorage.getItem("accNumber"));
         let previousTransType = JSON.parse(localStorage.getItem("transType"));
         const transType = changeTransTypeEl.value;
         let transAmount = 0;
@@ -259,17 +271,12 @@ function transactionChangeLoaded() {
         saveTransNumber();
     })
     deleteTransBtn.addEventListener('click', function () {
-        let transNumber = JSON.parse(localStorage.getItem("transNumber"));
-        let accNumber = JSON.parse(localStorage.getItem("accNumber"));
-        for (let i = transNumber; i < transactions.length; i++) {
-            transactions[i].number--;
-        }
-        if (transNumber > 2) {
-            for (let i = transNumber - 1; i > -1; i--) {
-                transactions[i].number--;
-            }
-        }
         transactions.splice(transNumber - 1, 1);
+        for (let i = transNumber - 1; i < transactions.length; i++) {
+            transactions[i].number--;
+            transNumber++;
+        }
+        saveTransactions();
         const transType = changeTransTypeEl.value;
         if (transType == 'Income') {
             transAmount = parseInt(-changeTransAmountEl.value);
@@ -278,7 +285,8 @@ function transactionChangeLoaded() {
         }
         accounts[accNumber - 1].balance += transAmount;
         saveAccounts();
-        saveTransactions();
+        transNumber--;
+        saveTransNumber();
     })
 }
 
@@ -303,7 +311,6 @@ function saveTransactions() {
 }
 
 function displayAccInfo() {
-    let accNumber = JSON.parse(localStorage.getItem("accNumber"));
     changeNameEl.value = accounts[accNumber - 1].name;
     changeBalEl.value = accounts[accNumber - 1].balance;
     changeCurEl.value = accounts[accNumber - 1].currency;
@@ -311,11 +318,11 @@ function displayAccInfo() {
 }
 
 function giveAccInfo(number) {
+    number = parseInt(number);
     localStorage.setItem("accNumber", JSON.stringify(number));
 }
 
 function displayTransInfo() {
-    let transNumber = JSON.parse(localStorage.getItem("transNumber"));
     changeTransTypeEl.value = transactions[transNumber - 1].type;
     if (transactions[transNumber - 1].type == "Expense") {
         changeTransAmountEl.value = -transactions[transNumber - 1].amount;
@@ -328,6 +335,7 @@ function displayTransInfo() {
 }
 
 function giveTransInfo(number, type) {
+    number = parseInt(number);
     localStorage.setItem("transNumber", JSON.stringify(number));
     localStorage.setItem("transType", JSON.stringify(type));
 }
@@ -491,7 +499,7 @@ if (currentPath === 'transaction-change.html') {
     transactionChangeLoaded();
 }
 
-function clearLocalStorage(){
+function clearLocalStorage() {
     let result = window.confirm("Are you sure you want to delete everything?")
     if (result) {
         localStorage.clear();
